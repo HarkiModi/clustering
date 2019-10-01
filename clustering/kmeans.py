@@ -1,5 +1,6 @@
 from collections import defaultdict
 from math import inf
+import scipy.spatial
 import random
 import csv
 
@@ -11,8 +12,15 @@ def point_avg(points):
     
     Returns a new point which is the center of all the points.
     """
-    raise NotImplementedError()
-
+    centroid = []
+    num_of_pts = len(points) #total number of points in the list
+    for i in range(len(points[0])):
+        add = 0
+        for x in range(len(points)):
+            add += points[x][i]
+        centroid += [add/num_of_pts]
+    return centroid
+        
 
 def update_centers(data_set, assignments):
     """
@@ -21,7 +29,10 @@ def update_centers(data_set, assignments):
     Compute the center for each of the assigned groups.
     Return `k` centers in a list
     """
-    raise NotImplementedError()
+    centers = []
+    for x in range(len(assignments)):
+        centers += [point_avg(data_set[x])]
+    return centers
 
 
 def assign_points(data_points, centers):
@@ -44,7 +55,8 @@ def distance(a, b):
     """
     Returns the Euclidean distance between a and b
     """
-    raise NotImplementedError()
+    return scipy.spatial.distance.euclidean(a, b)
+    
 
 
 def generate_k(data_set, k):
@@ -52,7 +64,7 @@ def generate_k(data_set, k):
     Given `data_set`, which is an array of arrays,
     return a random set of k points from the data_set
     """
-    raise NotImplementedError()
+    return random.sample(data_set, k)
 
 
 def get_list_from_dataset_file(dataset_file):
